@@ -1,0 +1,46 @@
+stages:
+  - test
+
+ui-test:
+  stage: test
+  image: node:latest
+  script:
+    - npm install
+    - npm run-script ui-test
+  artifacts:
+    name: Cucumber Report
+    expose_as: Cucumber Report
+    paths:
+      - report/cucumber-report.html
+    untracked: false
+    expire_in: 30 days
+    when: always
+
+api-test:
+  stage: test
+  image: node:latest
+  script:
+    - npm install
+    - npm run-script api-test
+  artifacts:
+    name: Newman Report
+    expose_as: Newman Report
+    paths:
+      - newman/*.html
+    untracked: false
+    expire_in: 30 days
+    when: always
+
+load-test:
+  stage: test
+  image: node:latest
+  script:
+    - npm install
+    - npm run-script load-test
+  artifacts:
+    name: Artillery Report
+    expose_as: Artillery Report
+    paths:
+      - report/artillery.json.html
+    untracked: false
+    expire_in: 30 days

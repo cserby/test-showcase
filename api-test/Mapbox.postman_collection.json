@@ -1,0 +1,1042 @@
+{
+	"info": {
+		"_postman_id": "1dd91c68-51cf-47c9-bfd2-83f813d0a181",
+		"name": "Mapbox",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Happy path",
+			"item": [
+				{
+					"name": "List dataset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "19d68b50-8cbe-469a-8887-79521b4f53d1",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create dataset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a8ad3300-68f0-4d91-8d9d-733045b23923",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Owner is the current user\", function () {",
+									"    pm.expect(jsonData.owner).to.eql(pm.environment.get(\"user_name\"));",
+									"});",
+									"pm.environment.set(\"dataset_id\", jsonData.id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"foo\",\n    \"description\": \"bar\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Feature",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "88037b3b-4d4a-4c4e-88d1-cb7c6cad701c",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"New dataset is empty\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.features).to.eql([]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}/{{dataset_id}}/features?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}",
+								"{{dataset_id}}",
+								"features"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Feature",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "aa32eb85-e83e-47bd-87f5-0b1a9f079fb3",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "02be7b90-9d12-47fe-b588-f3b9c6783635",
+								"exec": [
+									"pm.environment.set(\"feature_id\", require(\"uuid\").v4());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": \"{{feature_id}}\",\n    \"type\": \"Feature\",\n    \"properties\": {\n        \"prop0\": \"value0\"\n    },\n    \"geometry\": {\n        \"coordinates\": [\n            102,\n            0.5\n        ],\n        \"type\": \"Point\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}/{{dataset_id}}/features/{{feature_id}}?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}",
+								"{{dataset_id}}",
+								"features",
+								"{{feature_id}}"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Feature",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c8a79f8a-b04d-419d-95c9-78189fcdfe2b",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Created feature has coordinates that it were creted with\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.geometry.coordinates[1]).to.eql(0.5);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}/{{dataset_id}}/features/{{feature_id}}?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}",
+								"{{dataset_id}}",
+								"features",
+								"{{feature_id}}"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Feature",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1b81daee-1771-4889-9063-42731510749e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"New feature is listed\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.features).to.include(pm.environment.get(\"feature_id\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}/{{dataset_id}}/features?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}",
+								"{{dataset_id}}",
+								"features"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Feature",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "539f755e-29d6-4929-abb0-9f8e54382580",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": \"{{feature_id}}\",\n    \"type\": \"Feature\",\n    \"properties\": {\n        \"prop0\": \"value0\"\n    },\n    \"geometry\": {\n        \"coordinates\": [\n            102,\n            0.6\n        ],\n        \"type\": \"Point\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}/{{dataset_id}}/features/{{feature_id}}?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}",
+								"{{dataset_id}}",
+								"features",
+								"{{feature_id}}"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Retrieve Feature",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "47d3b529-3eb6-4020-91dd-d1668cfdcc7e",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Created feature has coordinates that it were updated to\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.geometry.coordinates[1]).to.eql(0.6);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}/{{dataset_id}}/features/{{feature_id}}?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}",
+								"{{dataset_id}}",
+								"features",
+								"{{feature_id}}"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Feature",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f0bc5520-a203-4faf-9b3e-eadc6600a312",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}/{{dataset_id}}/features/{{feature_id}}?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}",
+								"{{dataset_id}}",
+								"features",
+								"{{feature_id}}"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Feature",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f0c0e069-554b-4d2b-befa-df842ccc0146",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Feature is removed\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.features.map(item => item.id)).to.not.include(pm.environment.get(\"feature_id\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}/{{dataset_id}}/features?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}",
+								"{{dataset_id}}",
+								"features"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete dataset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7239e2c6-7889-4ba7-8519-ab4905ae7a7d",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}/{{dataset_id}}?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}",
+								"{{dataset_id}}"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List dataset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "59dc53f0-9c1e-430f-92f9-a4183ff0d9a6",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Dataset is removed\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.map(item => item.id)).to.not.include(pm.environment.get(\"dataset_id\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Create Dataset, create Feature inside, update Feature, cleanup",
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Incorrect auth",
+			"item": [
+				{
+					"name": "List dataset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "867ab8e0-c389-4a49-a876-ab42ec8dcb68",
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}?access_token=invalid",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "invalid"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Non-existent dataset",
+			"item": [
+				{
+					"name": "List Feature Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cc8687c5-188d-495c-be93-723705a813b4",
+								"exec": [
+									"pm.test(\"Status code is 422\", function () {",
+									"    pm.response.to.have.status(422);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}/invalid-dataset-id/features?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}",
+								"invalid-dataset-id",
+								"features"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Invalid Feature schema",
+			"item": [
+				{
+					"name": "List dataset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "16179962-c8f4-4251-adff-a5278f293e74",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create dataset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6e65b2ec-ee88-4830-8c3b-815392cfec24",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"var jsonData = pm.response.json();",
+									"pm.test(\"Owner is the current user\", function () {",
+									"    pm.expect(jsonData.owner).to.eql(pm.environment.get(\"user_name\"));",
+									"});",
+									"pm.environment.set(\"dataset_id\", jsonData.id);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"foo\",\n    \"description\": \"bar\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Feature",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "75bb61b8-69cf-4785-b333-8f77809f6a88",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"New dataset is empty\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.features).to.eql([]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}/{{dataset_id}}/features?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}",
+								"{{dataset_id}}",
+								"features"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Feature",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3f182355-0f4c-4ff1-9ed9-bf98396c4e87",
+								"exec": [
+									"pm.test(\"Status code is 422\", function () {",
+									"    pm.response.to.have.status(422);",
+									"});",
+									"pm.test(\"Response describes error\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.message).to.eql(\"Invalid geojson\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "55bd43e8-f125-40dc-9c16-353394d96f8b",
+								"exec": [
+									"pm.environment.set(\"feature_id\", require(\"uuid\").v4());"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": \"{{feature_id}}\",\n    \"type\": \"Feature\",\n    \"properties\": {\n        \"prop0\": \"value0\"\n    },\n    \"geometry\": {\n        \"coordinates\": {\n        \t\"x\": 102,\n        \t\"y\": 0.5\n        },\n        \"type\": \"Point\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}/{{dataset_id}}/features/{{feature_id}}?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}",
+								"{{dataset_id}}",
+								"features",
+								"{{feature_id}}"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete dataset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a352cbb-75f1-4ec4-951c-e9d8059dde1c",
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {",
+									"    pm.response.to.have.status(204);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}/{{dataset_id}}?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}",
+								"{{dataset_id}}"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List dataset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f2ae7a7d-6f02-4929-a8d6-cbba22bc9623",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Dataset is removed\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.map(item => item.id)).to.not.include(pm.environment.get(\"dataset_id\"));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.mapbox.com/datasets/v1/{{user_name}}?access_token={{access_token}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"mapbox",
+								"com"
+							],
+							"path": [
+								"datasets",
+								"v1",
+								"{{user_name}}"
+							],
+							"query": [
+								{
+									"key": "access_token",
+									"value": "{{access_token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Create Dataset, create Feature inside, update Feature, cleanup",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b3cb8d27-288e-4b55-8deb-544cc6ebbe89",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "56c861bd-a065-4203-8096-6aaa015670b0",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
