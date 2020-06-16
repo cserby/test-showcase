@@ -2,7 +2,7 @@ name: ui-test
 on:
   push:
     branches:
-      - github_actions
+      - master
 jobs:
   ui-test:
     runs-on: ubuntu-latest
