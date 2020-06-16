@@ -1,0 +1,30 @@
+name: ui-test
+on:
+  push:
+    branches:
+      - github_actions
+jobs:
+  api-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - run: npm ci
+      - run: npm run-script ui-test
+        env:
+          LIBRI_USER_EMAIL: ${{secrets.LIBRI_USER_EMAIL}}
+          LIBRI_USER_PASSWORD: ${{secrets.LIBRI_USER_PASSWORD}}
+      - uses: actions/upload-artifact@v1
+        with:
+          name: UI Test Report
+          path: report/cucumber-report.html
