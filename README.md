@@ -4,9 +4,11 @@ This is a showcase project for demonstrating my experience in multiple fields of
 
 It contains three parts:
 
-1) Automated UI tests
-1) Automated API tests
-1) Automated backend performance tests
+1) Automated UI tests ![ui-test](https://github.com/cserby/test-showcase/workflows/ui-test/badge.svg)
+1) Automated API tests ![api-test](https://github.com/cserby/test-showcase/workflows/api-test/badge.svg)
+1) Automated backend performance tests ![load-test](https://github.com/cserby/test-showcase/workflows/load-test/badge.svg)
+
+In order to showcase CI integration of automated tests, this repository is set up with GitHub Actions.
 
 # Project requirements
 
@@ -85,9 +87,13 @@ After the run finished, the HTML report is generated, and output to `report/cucu
 
 ### CI integration
 
+Make sure to have the `LIBRI_USER_EMAIL` and the `LIBRI_USER_PASSWORD` environment variables defined on the CI server.
+
+#### GitLab CI
 An example configuration for GitLab CI can be found in [.gitlab-ci.yaml](.gitlab-ci.yml) in the `test/ui-test` job.
 
-Make sure to have the `LIBRI_USER_EMAIL` and the `LIBRI_USER_PASSWORD` environment variables defined on the CI server.
+#### GitHub Actions
+The [.github/workflows/ui-test.yaml]() file describes the GitHub Actions Workflow that runs these UI tests.
 
 ### Developer's guide
 
@@ -146,9 +152,13 @@ After the run finished, the HTML report is generated automatically, and can be f
 
 ### CI integration
 
+Make sure to have the `MAPBOX_USER_NAME` and the `MAPBOX_API_KEY` environment variables defined on the CI server.
+
+#### GitLab CI
 An example configuration for GitLab CI can be found in [.gitlab-ci.yaml](.gitlab-ci.yml), in the `test/api-test` job.
 
-Make sure to have the `MAPBOX_USER_NAME` and the `MAPBOX_API_KEY` environment variables defined on the CI server.
+#### GitHub Actions
+The [.github/workflows/api-test.yaml]() file describes the GitHub Actions Workflow that runs these API tests.
 
 ### Developer's guide
 
@@ -207,7 +217,11 @@ After the run finished, the HTML report is generated automatically, and can be f
 
 ### CI integration
 
+#### GitLab CI
 An example configuration for GitLab CI can be found in [.gitlab-ci.yaml](.gitlab-ci.yml), in the `test/load-test` job.
+
+#### GitHub Actions
+The [.github/workflows/api-test.yaml]() file describes the GitHub Actions Workflow that runs this load test.
 
 ### Developer's guide
 
