@@ -24,7 +24,8 @@ jobs:
         env:
           MAPBOX_USER_NAME: ${{secrets.MAPBOX_USER_NAME}}
           MAPBOX_API_KEY: ${{secrets.MAPBOX_API_KEY}}
+      - run: mv newman/*.html newman/api-test-report.html
       - uses: actions/upload-artifact@v1
         with:
           name: API Test Report
-          path: newman/*.html
+          path: newman/api-test-report.html
