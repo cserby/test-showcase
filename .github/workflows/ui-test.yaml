@@ -4,7 +4,7 @@ on:
     branches:
       - github_actions
 jobs:
-  api-test:
+  ui-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
