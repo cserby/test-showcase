@@ -226,3 +226,5 @@ The [.github/workflows/api-test.yaml]() file describes the GitHub Actions Workfl
 ### Developer's guide
 
 Define the load test's parameters in [load-test/artillery.yaml](). The semantics of this file is described in detail in the [Artillery Script Reference](https://artillery.io/docs/script-reference/).
+
+Copyright
