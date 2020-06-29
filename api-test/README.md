@@ -57,21 +57,21 @@ After the run finished, the HTML report is generated automatically, and can be f
 Make sure to have the `MAPBOX_USER_NAME` and the `MAPBOX_API_KEY` environment variables defined on the CI server.
 
 ### GitLab CI
-An example configuration for GitLab CI can be found in [/.gitlab-ci.yaml](), in the `test/api-test` job.
+An example configuration for GitLab CI can be found in [../.gitlab-ci.yaml](), in the `test/api-test` job.
 
 ### GitHub Actions
-The [/.github/workflows/api-test.yaml]() file describes the GitHub Actions Workflow that runs these API tests.
+The [../.github/workflows/api-test.yaml]() file describes the GitHub Actions Workflow that runs these API tests.
 
 ## Developer's guide
 
-Use Postman UI to add new test cases to the [collection](/api-test/Mapbox.postman_collection.json).
+Use Postman UI to add new test cases to the [collection](../api-test/Mapbox.postman_collection.json).
 
 Inside the collection each folder describes the requests pertaining to the same test case. Folders need to be run in order, using the Postman Runner.
 
-Once done in Postman, export the Collection, and overwrite the [/api-test/Mapbox.postman_collection.json]() file with the new contents.
+Once done in Postman, export the Collection, and overwrite the [../api-test/Mapbox.postman_collection.json]() file with the new contents.
 
 ## Issues found
 
 The automated API tests fail on reading the attributes of a `Feature` right after they were updated. The assertions are set up to expect the updated values to be returned, however it seems that updates are done in an eventually consistent manner.
 
-No information on how to report issues for the Mapbox Maps API was found on the [Mapbox site](https://mapbox.com), so an example issue report showcasing the necessary information elements was written up in [/api-test/ISSUE.md]().
+No information on how to report issues for the Mapbox Maps API was found on the [Mapbox site](https://mapbox.com), so an example issue report showcasing the necessary information elements was written up in [../api-test/ISSUE.md]().

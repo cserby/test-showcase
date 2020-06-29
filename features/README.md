@@ -61,10 +61,10 @@ After the run finished, the HTML report is generated, and output to `/report/cuc
 Make sure to have the `LIBRI_USER_EMAIL` and the `LIBRI_USER_PASSWORD` environment variables defined on the CI server.
 
 ### GitLab CI
-An example configuration for GitLab CI can be found in [/.gitlab-ci.yaml]() in the `test/ui-test` job.
+An example configuration for GitLab CI can be found in [../.gitlab-ci.yaml]() in the `test/ui-test` job.
 
 ### GitHub Actions
-The [/.github/workflows/ui-test.yaml]() file describes the GitHub Actions Workflow that runs these UI tests.
+The [../.github/workflows/ui-test.yaml]() file describes the GitHub Actions Workflow that runs these UI tests.
 
 ## Developer's guide
 
@@ -72,10 +72,10 @@ The test framework in use is `cucumber-js`. Browser automation is perfomed using
 
 New tests need to be added as `.feature` files to `/features/`.
 
-The Gherkin steps are glued to their respective JS implementation in [/features/step_definitions/steps.js]().
+The Gherkin steps are glued to their respective JS implementation in [../features/step_definitions/steps.js]().
 
-Pre/post hooks are defined in [features/hooks.js]().
+Pre/post hooks are defined in [../features/hooks.js]().
 
-In Cucumber-JS, all steps have access to a shared `World` instance. This can be used to pass state around, and also to implement utility functions. The code for `World` is in [/features/world.js]().
+In Cucumber-JS, all steps have access to a shared `World` instance. This can be used to pass state around, and also to implement utility functions. The code for `World` is in [../features/world.js]().
 
-The test automation code is following the [Page Object Pattern](https://martinfowler.com/bliki/PageObject.html), the Page Objects are defined in [/features/support/](), alongside with some helper libraries, notably one for Logging: [/features/support/logging.js]().
+The test automation code is following the [Page Object Pattern](https://martinfowler.com/bliki/PageObject.html), the Page Objects are defined in [../features/support/](), alongside with some helper libraries, notably one for Logging: [../features/support/logging.js]().

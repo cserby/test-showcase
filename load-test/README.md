@@ -60,11 +60,11 @@ funcitonality provided by Artillery, reported in [Artillery issue #851](https://
 ## CI integration
 
 ### GitLab CI
-An example configuration for GitLab CI can be found in [/.gitlab-ci.yaml](), in the `test/load-test` job.
+An example configuration for GitLab CI can be found in [../.gitlab-ci.yaml](), in the `test/load-test` job.
 
 ### GitHub Actions
-The [/.github/workflows/api-test.yaml]() file describes the GitHub Actions Workflow that runs this load test.
+The [../.github/workflows/api-test.yaml]() file describes the GitHub Actions Workflow that runs this load test.
 
 ## Developer's guide
 
-Define the load test's parameters in [/load-test/artillery.yaml](). The semantics of this file is described in detail in the [Artillery Script Reference](https://artillery.io/docs/script-reference/).
+Define the load test's parameters in [../load-test/artillery.yaml](). The semantics of this file is described in detail in the [Artillery Script Reference](https://artillery.io/docs/script-reference/).
