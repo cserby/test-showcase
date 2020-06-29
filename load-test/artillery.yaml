@@ -1,5 +1,6 @@
 config:
   target: 'https://artillery.io'
+  statsInterval: 0.1
   phases:
     - duration: 15
       arrivalRate: 67
