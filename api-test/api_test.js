@@ -20,6 +20,8 @@ newman.run({
         },
       ],
     },
-}, function (err) {
-    if (err) { throw err; }
+}, function (error, summary) {
+    if (error) { throw error; }
+    console.log(JSON.stringify(summary));
+    if (summary.error) { console.log(`Error: ${summary.error}`); process.exit(1); }
 });
