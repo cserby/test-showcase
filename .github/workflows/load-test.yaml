@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - increase-load-test-stat-freq
 jobs:
   load-test:
     runs-on: ubuntu-latest
