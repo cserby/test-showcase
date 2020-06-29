@@ -215,6 +215,10 @@ npm run-script load-test
 
 After the run finished, the HTML report is generated automatically, and can be found in the `report/` folder.
 
+In order to be able to see changes in the non-functional characteristics during the 15 seconds test, Artillery
+is set up to emit statistics with a high frequency. This uncovered an issue with the HTML report generation
+funcitonality provided by Artillery, reported in [Artillery issue #851](https://github.com/artilleryio/artillery/issues/851).
+
 ### CI integration
 
 #### GitLab CI
