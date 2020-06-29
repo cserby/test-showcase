@@ -170,6 +170,12 @@ The necessary environment variables are stored in the [api-test/Mapbox.postman_e
 
 Once done in Postman, export the Collection, and overwrite the [api-test/Mapbox.postman_collection.json]() file with the new contents.
 
+### Issues found
+
+The automated API tests fail on reading the attributes of a `Feature` right after they were updated. The assertions are set up to expect the updated values to be returned, however it seems that updates are done in an eventually consistent manner.
+
+No information on how to report issues for the Mapbox Maps API was found on the [Mapbox site](https://mapbox.com), so an example issue report showcasing the necessary information elements was written up in [api-test/ISSUE.md]().
+
 ## Automated Load Test
 ### Overview
 
