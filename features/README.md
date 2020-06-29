@@ -21,6 +21,8 @@ The project was created based on this imaginary input from a customer:
 
 These tests describe and verify some of the functionalities of the E-Commerce site of one of Hungary's largest book stores: [Libri](https://libri.hu).
 
+An example [test plan document](TEST_PLAN.md) is included in order to showcase the structure of such a document, notably the test case definitions.
+
 The tests are built [BDD style](https://en.wikipedia.org/wiki/Behavior-driven_development), the test scenarios are defined in the so-called `feature files` using the Gherkin language, which makes them easy to understand (and hopefully review) by non-technical people, like Business Representatives.
 
 The output of the tests is a similarly clean, easy-to-digest HTML report, describing each step that was taken, with clear error messages and screenshots in case of a test failure. On the other hand, under the surface, the report contains debug log output (down to the API call level) also, that provides  indispensable information for developers in understanding and fixing failures.
