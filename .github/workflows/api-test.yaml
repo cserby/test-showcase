@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - api-fail-on-error
 jobs:
   api-test:
     runs-on: ubuntu-latest
