@@ -22,6 +22,6 @@ newman.run({
     },
 }, function (error, summary) {
     if (error) { throw error; }
-    console.log(JSON.stringify(summary));
     if (summary.error) { console.log(`Error: ${summary.error}`); process.exit(1); }
+    if (summary.run.failures.length >= 0) { console.log(`Test failures: ${JSON.stringify(summary.run.failures)}`); process.exit(1); }
 });
